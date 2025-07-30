@@ -1,104 +1,205 @@
-/* CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
+  /* Theme colors - light mode */
+  --primary: #1976d2;        /* Main brand blue */
+  --secondary: #424242;      /* Subdued dark, used for some text/borders */
+  --accent: #ffd600;         /* Accent: yellow */
+  --bg: #fff;
   --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --text: #222;
+  --board-border: #e0e0e0;
+  --square-hover: #f0f7fa;
+}
+body {
+  background: var(--bg);
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
-}
-
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+/* Wrapper and vertical alignment */
+.ttt-app-root {
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100vw;
+  background: var(--bg);
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
+.ttt-main {
+  max-width: 420px;
+  margin: 0 auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 8px 8px 8px;
+  box-sizing: border-box;
+}
+
+/* Title styles */
+.ttt-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Player row */
+.ttt-player-row {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  gap: 16px;
+  margin: 10px 0 6px 0;
+}
+.ttt-player {
+  font-size: 1.4rem;
+  font-weight: bold;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
+  transition: border 0.15s, background 0.15s;
+  color: var(--secondary);
+}
+.ttt-player-x {
+  color: var(--primary);
+}
+.ttt-player-o {
+  color: var(--accent);
+}
+.ttt-active {
+  border: 2px solid var(--accent);
+  background: #fffde7;
+}
+.ttt-vs {
+  color: var(--secondary);
+  padding: 0 8px;
+  font-size: 1.1rem;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+/* Game status */
+.ttt-status {
+  font-size: 1.06rem;
+  margin-bottom: 12px;
+  margin-top: 4px;
+  min-height: 22px;
+  font-weight: 500;
+  color: var(--primary);
+  letter-spacing: 0.02em;
+  text-align: center;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
+/* Board */
+.ttt-board-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 18px auto;
+  width: 100%;
+}
+.ttt-board {
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  border: 1.5px solid var(--board-border);
+  background: var(--bg-secondary);
+  padding: 9px;
+  box-shadow: 0 3px 18px 0 rgba(25, 118, 210, 0.045);
+  width: min(320px, 88vw);
+  min-width: 225px;
+  aspect-ratio: 1 / 1;
+  user-select: none;
+}
+.ttt-board-row {
+  display: flex;
+  flex: 1 1 33%;
+}
+.ttt-square {
+  flex: 1 1 33%;
+  aspect-ratio: 1 / 1;
+  margin: 5px;
+  background: #fff;
+  border: 1.5px solid var(--board-border);
+  font-size: 2.4rem;
+  font-family: inherit;
   font-weight: 600;
+  color: var(--secondary);
+  border-radius: 14px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+  transition: border 0.17s, background 0.13s;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.025);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ttt-square:hover:enabled, .ttt-square:focus-visible:enabled {
+  border-color: var(--primary);
+  background: var(--square-hover);
+}
+.ttt-square:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+/* Mark color override */
+.ttt-square:enabled {
+  color: var(--secondary);
+}
+.ttt-square:enabled:after {
+  /* Could be used for small animation/accent */
+}
+/* Accent the marks for winner - advanced: can be added per requirement */
+
+/* Button */
+.ttt-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 36px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  letter-spacing: 0.03em;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.09);
+}
+.ttt-btn-large {
+  font-size: 1.18rem;
+  padding: 14px 44px;
+}
+.ttt-btn:hover, .ttt-btn:focus-visible {
+  background: #165bb6;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+/* Footer */
+.ttt-footer {
+  font-size: 0.92rem;
+  padding: 24px 0 0 0;
+  text-align: center;
+  color: var(--secondary);
+  opacity: 0.8;
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media (max-width: 600px) {
+  .ttt-main {
+    padding: 10px 0 0 0;
+    min-height: 100vh;
   }
-  to {
-    transform: rotate(360deg);
+  .ttt-title {
+    font-size: 1.35rem;
   }
-}
-
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+  .ttt-board {
+    width: min(100vw, 320px);
+    min-width: 160px;
+    font-size: 1.5rem;
+    padding: 3.7vw 2vw;
+  }
+  .ttt-btn, .ttt-btn-large {
+    font-size: 1rem;
+    padding: 10px 26px;
+    margin-top: 7px;
   }
 }
